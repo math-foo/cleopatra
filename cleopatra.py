@@ -30,18 +30,16 @@ def cross(genotype, other_genotype):
     return new_genotypes[i]
 
 class Organism:
-  def __init__(self, gene_list, name):
-        self.genes = gene_list
-        self.name = name
+  def __init__(self, name, genelist=[], mother=None, father=None ):
+    self.name = name
 
+    if genelist:
+      self.genes = genelist
+    elif mother and father:
+      self.genes = []
 
-  def breed(self, other, new_name):
-    new_gene_list = []
-
-    for i in xrange(number_of_genes):
-      new_gene_list.append(cross(self.genes[i], other.genes[i]))
-
-    return Organism(new_gene_list, new_name)
+      for i in xrange(number_of_genes):
+        self.genes.append(cross(father.genes[i], mother.genes[i]))
 
   def show(self):
     r_dict = {'AA': 0, 'aa': 0, 'BB': 0, 'bb': 0}
@@ -55,48 +53,47 @@ class Organism:
     print self.name + " was " + str(total) + "% inbred"
 
          
-
-Pt5 = Organism(['Aa' for i in xrange(number_of_genes)], "Ptolemy V")
+Pt5 = Organism("Ptolmey V", genelist=['Aa' for i in xrange(number_of_genes)])
 Pt5.show()
-Cl1 = Organism(['Bb' for i in xrange(number_of_genes)], "Cleopatra I")
+Cl1 = Organism("Cleopatra", genelist=['Bb' for i in xrange(number_of_genes)])
 Cl1.show()
 
-Pt6 = Pt5.breed(Cl1, "Ptolemy VI")
+Pt6 = Organism("Ptolemy VI", mother=Cl1, father=Pt5)
 Pt6.show()
-Pt8 = Pt5.breed(Cl1, "Ptolmey VIII")
+Pt8 =  Organism("Ptolemy VIII", mother=Cl1, father=Pt5)
 Pt8.show()
-Cl2 = Pt5.breed(Cl1, "Cleopatra II")
+Cl2 =  Organism("Cleopatra II", mother=Cl1, father=Pt5)
 Cl2.show()
 
 print "----"
 
-Cl3 = Pt6.breed(Cl2, "Cleopatra III")
+Cl3 = Organism("Cleopatra III", mother=Cl2, father=Pt6)
 Cl3.show()
 
 print "------"
 
-Cl4 = Pt8.breed(Cl3, "Cleopatra IV")
+Cl4 = Organism("Cleopatra IV", mother=Cl3, father=Pt8)
 Cl4.show()
-Pt9 = Pt8.breed(Cl3, "Ptolmey IX")
+Pt9 = Organism("Ptolmey IX", mother=Cl3, father=Pt8)
 Pt9.show()
-Pt10 = Pt8.breed(Cl3, "Ptolmey X")
+Pt10 = Organism("Ptolmey X", mother=Cl3, father=Pt8)
 Pt10.show()
-Cs1 = Pt8.breed(Cl3, "Cleopatra Selene I")
+Cs1 = Organism("Cleopatra Selene I", mother=Cl3, father=Pt8)
 Cs1.show()
 
 print "---------"
 
-Pt12 = Pt9.breed(Cl4, "Ptomley XII")
+Pt12 = Organism("Ptomley XII", mother=Cl4, father=Pt9)
 Pt12.show()
-Br3 = Pt9.breed(Cs1, "Bernice III")
+Br3 = Organism("Bernice III", mother=Cs1, father=Pt9)
 Br3.show()
 
 print "------"
 
-Cl5 = Pt10.breed(Br3, "Cleopatra V")
+Cl5 = Organism("Cleopatra V", mother=Br3, father=Pt10)
 Cl5.show()
 
 print "------"
 
-Cl6 = Pt12.breed(Cl5, "Cleopatra VII")
+Cl6 = Organism("Cleopatra VII", mother=Cl5, father=Pt12)
 Cl6.show()
