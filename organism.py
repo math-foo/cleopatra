@@ -53,12 +53,8 @@ class Organism:
         self.genes.append(cross(father.genes[i], mother.genes[i]))
 
   def show(self):
-    r_dict = {'AA': 0, 'aa': 0, 'BB': 0, 'bb': 0}
+    duplicated_genes = sum(gene[0] == gene[1] for gene in self.genes)
 
-    for gene in self.genes:
-       if gene in r_dict:
-         r_dict[gene] += 1
-
-    total = sum(r_dict.values())*100.0/number_of_genes
+    total = duplicated_genes*100.0/number_of_genes
 
     print self.name + " was " + str(total) + "% inbred"
