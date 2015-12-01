@@ -2,7 +2,7 @@
 
 import random
 
-number_of_genes = 100000 
+number_of_genes = 10000
 genotype_dict = {}
 
 class GeneFactory:
