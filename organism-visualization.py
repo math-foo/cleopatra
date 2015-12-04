@@ -13,13 +13,12 @@ class OrganismVisualization:
 
   def to_png(self):
     gene_copy = self.organism.genes[:]
-    gene_copy.sort(key=lambda gene: "" if gene[0] == gene[1] else gene)
-    print len(gene_copy)
+    gene_copy.sort(key=lambda gene: "" if gene.duplicated() else gene.gene)
     for i in xrange(0,100):
       for j in xrange(0,100):
         self.context.rectangle(j, i, 1 + j, 1 + i)
         gene = gene_copy[i*100+j]
-        if gene[0] == gene[1]:
+        if gene.duplicated():
           self.context.set_source_rgb(0, 1, 0)
         else:
           self.context.set_source_rgb(1, 0, 0)
