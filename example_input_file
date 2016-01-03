@@ -1,0 +1,70 @@
+# Lines that start with # are ignored as comments.
+# Want multi-line comments? Tough. Use multiple #s
+
+   
+# Blank lines, even ones with white space, are fine.
+
+A
+B -> D
+E,F - > G
+
+# In these examples:
+#   A is unrelated to any other organism
+#   D is a child of B, and an unmaned third organism that is unrelated to any other organism
+#   G is a child of E and F
+
+H,I->J
+K     ,    L     ->       M
+
+# Spread out, or bunch up, either way is fine.
+
+N, AVeryLongNameThatWouldActuallyBeReallyCumbersomeToType -> P
+
+# The label for an organism can be as long as you would like
+
+ZZ9PluralZAlpha -> QQ7ActiveJGamma
+
+# And contain both numbers and letters
+
+42 -> 22B
+
+# And even start with numbers.
+
+}z!i*i^l;j' -> a"$b%c@()
+
+# And contain and start with symbols apart from ',' '-' and '>'.
+
+# A name like this -> is not okay
+
+# But no spaces
+
+# A>B, D,E -> F-G
+
+# And none of the aforementioned special characters
+
+Q, R -> S
+Q, R -> T
+Q, R -> U
+
+# Different organisms can have the same pair of parents.
+
+Q, V -> X
+Y, R -> Z
+
+# An organism can pair with more than one other organism to produce children
+
+
+AA, BB -> CC
+AA, BB -> DD
+# CC, DD -> AA <---!! NOPE!
+
+# Sorry, I don't support time travel, organisms cannot be their own descendants
+
+# EE, -> FF <---!! NO.
+# EE,FF <---!! Also NO.
+# EE, FF - > GG <---!! Still NO.
+# -> G <---!! Why would you even think that?
+
+# <F3><F2>905h8 y	<F2>2vnol'b9p u   <--!! .....I can't even. What is wrong with you?
+
+# Not everything is going to parse. I try to provided helpful messages.
