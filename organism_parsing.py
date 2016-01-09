@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import re
 import sys
 
 class OrganismParser(object):
@@ -9,14 +10,20 @@ class OrganismParser(object):
 
   def produce_organisms(self):
     #TODO: implement this.
-    parsed_entries = []
+    relationships = {}
 
     for entry in self.entries:
       # Skipping commented out lines
       if entry[0] != '#' and entry.strip():
-        parsed_entries.append(entry)
+        entry = entry.strip()
+        if '->' in entry:
+          parents_string, child_string = entry.split('->')
+        else:
+          if not re.match('[->, ]', entry):
+            if entry not in relationships:
+              relationships[entry] = []
 
-    return parsed_entries
+    return relationships
 
 
 if __name__ == '__main__':

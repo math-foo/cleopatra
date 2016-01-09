@@ -5,8 +5,22 @@ import organism_parsing
 
 
 class TestOrganismSimpleParsing(unittest.TestCase):
+  def setUp(self):
+    test_input = ['A, B -> C\n',
+                  'D\n', # Lone organism
+                  'E -> F\n',
+                  'G, H -> I\n',
+                  'G, J -> K\n',
+                  'L, M -> N\n',
+                  'L, M -> O\n',
+                  'P -> Q\n',
+                  'P -> R\n']
+    organism_parser = organism_parsing.OrganismParser(test_input)
+    self.organisms = organism_parser.produce_organisms()
+
   def test_lone_organism(self):
-    self.assertTrue(False)
+    self.assertIn('D', self.organisms)
+    self.assertEqual([], self.organisms['D'])
 
   def test_single_parent_organism(self):
     self.assertTrue(False)
