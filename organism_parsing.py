@@ -3,25 +3,53 @@
 import re
 import sys
 
+def valid_organism_identifier(organism_name):
+  organism_name = organism_name.strip()
+  if not re.search('[>, -]', organism_name):
+    return organism_name
+  else:
+    return False
+
 class OrganismParser(object):
 
   def __init__(self, entries):
     self.entries = entries
 
   def produce_organisms(self):
-    #TODO: implement this.
     relationships = {}
 
     for entry in self.entries:
       # Skipping commented out lines
       if entry[0] != '#' and entry.strip():
-        entry = entry.strip()
-        if '->' in entry:
-          parents_string, child_string = entry.split('->')
+        if valid_organism_identifier(entry):
+          valid_entry = valid_organism_identifier(entry)
+          if not re.match('[->, ]', valid_entry):
+            if valid_entry not in relationships:
+              relationships[valid_entry] = []
         else:
-          if not re.match('[->, ]', entry):
-            if entry not in relationships:
-              relationships[entry] = []
+          entry = entry.strip()
+          if '->' in entry:
+            parents_string, child_string = entry.split('->')
+
+            child = valid_organism_identifier(child_string)
+
+            parents = []
+            if ',' not in parents_string:
+              valid_parent = valid_organism_identifier(parents_string)
+              if valid_parent:
+                parents = [valid_parent]
+            else:
+              if parents_string.count(',') == 1:
+                parent_a_string, parent_b_string = parents_string.split(',')
+                parent_a = valid_organism_identifier(parent_a_string)
+                parent_b = valid_organism_identifier(parent_b_string)
+
+                if parent_a and parent_b:
+                  parents = [parent_a, parent_b]
+
+            if parents and child:
+              if child not in relationships:
+                relationships[child] = parents
 
     return relationships
 

@@ -10,7 +10,7 @@ class TestOrganismSimpleParsing(unittest.TestCase):
                   'D\n', # Lone organism
                   'E -> F\n',
                   'G, H -> I\n',
-                  'G, J -> K\n',
+                  'H, J -> K\n',
                   'L, M -> N\n',
                   'L, M -> O\n',
                   'P -> Q\n',
@@ -23,19 +23,30 @@ class TestOrganismSimpleParsing(unittest.TestCase):
     self.assertEqual([], self.organisms['D'])
 
   def test_single_parent_organism(self):
-    self.assertTrue(False)
+    self.assertIn('F', self.organisms)
+    self.assertEqual(['E'], self.organisms['F'])
 
   def test_two_parent_organism(self):
-    self.assertTrue(False)
+    self.assertIn('C', self.organisms)
+    self.assertEqual(['A', 'B'], self.organisms['C'])
 
   def test_different_parenting_pairs_organism(self):
-    self.assertTrue(False)
+    self.assertIn('I', self.organisms)
+    self.assertIn('K', self.organisms)
+    self.assertEqual(['G', 'H'], self.organisms['I'])
+    self.assertEqual(['H', 'J'], self.organisms['K'])
 
   def test_two_parents_multiple_children_organism(self):
-    self.assertTrue(False)
+    self.assertIn('N', self.organisms)
+    self.assertIn('O', self.organisms)
+    self.assertEqual(['L', 'M'], self.organisms['N'])
+    self.assertEqual(['L', 'M'], self.organisms['O'])
 
   def test_single_parent_multiple_children_organism(self):
-    self.assertTrue(False)
+    self.assertIn('Q', self.organisms)
+    self.assertIn('R', self.organisms)
+    self.assertEqual(['P'], self.organisms['Q'])
+    self.assertEqual(['P'], self.organisms['R'])
 
 
 class TestOrganismParsingComments(unittest.TestCase):
