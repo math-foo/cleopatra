@@ -6,14 +6,14 @@ import organism_parsing
 
 class TestOrganismSimpleParsing(unittest.TestCase):
   def setUp(self):
-    test_input = ['A, B -> C\n',
+    test_input = ['A, B -> C\n', # Two Parent organism
                   'D\n', # Lone organism
-                  'E -> F\n',
-                  'G, H -> I\n',
+                  'E -> F\n', # Single Parent organisms
+                  'G, H -> I\n', # Different parent pairs sharing a parent
                   'H, J -> K\n',
-                  'L, M -> N\n',
+                  'L, M -> N\n', # Single parenting pair, multiple children
                   'L, M -> O\n',
-                  'P -> Q\n',
+                  'P -> Q\n', # Single Parent, multiple children
                   'P -> R\n']
     organism_parser = organism_parsing.OrganismParser(test_input)
     self.organisms = organism_parser.produce_organisms()
@@ -60,17 +60,29 @@ class TestOrganismParsingComments(unittest.TestCase):
 
 
 class TestOrganismParsingOddNames(unittest.TestCase):
+  def setUp(self):
+    test_input = ['A, B -> C\n', # Single Char Organisms
+                  'Greg, Hannah -> Ivan\n', # Multi Char Organisms
+                  'H4nn4h, J4m3s -> 123456\n', # Numbers
+                  'L$@$%, M%!@(*) -> @@$$%@$%\n'] # Symbols
+    organism_parser = organism_parsing.OrganismParser(test_input)
+    self.organisms = organism_parser.produce_organisms()
+
   def test_single_char_organism(self):
-    self.assertTrue(False)
+    self.assertIn('C', self.organisms)
+    self.assertEqual(['A', 'B'], self.organisms['C'])
 
   def test_multi_char_organism(self):
-    self.assertTrue(False)
+    self.assertIn('Ivan', self.organisms)
+    self.assertEqual(['Greg', 'Hannah'], self.organisms['Ivan'])
 
   def test_char_and_nums_organisms(self):
-    self.assertTrue(False)
+    self.assertIn('123456', self.organisms)
+    self.assertEqual(['H4nn4h', 'J4m3s'], self.organisms['123456'])
 
   def test_symbols_organisms(self):
-    self.assertTrue(False)
+    self.assertIn('@@$$%@$%', self.organisms)
+    self.assertEqual(['L$@$%', 'M%!@(*)'], self.organisms['@@$$%@$%'])
 
 class TestOrganismParsingOddSpacing(unittest.TestCase):
   def test_bunched_organisms(self):
