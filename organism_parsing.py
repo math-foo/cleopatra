@@ -10,6 +10,22 @@ def valid_organism_identifier(organism_name):
   else:
     return False
 
+class OrganismParseError(Exception):
+  pass
+
+
+class MalformedEntryError(Exception):
+  pass
+
+
+class MissingChildError(OrganismParseError):
+  pass
+
+
+class MissingParentError(OrganismParseError):
+  pass
+
+
 class OrganismParser(object):
 
   def __init__(self, entries):
@@ -50,6 +66,13 @@ class OrganismParser(object):
             if parents and child:
               if child not in relationships:
                 relationships[child] = parents
+            elif not child:
+              raise MissingChildError("Child missing from line: {0}".format(entry))
+            elif not parents:
+              raise MissingParentError("Parent missing from line: {0}".format(entry))
+
+          else:
+            raise MalformedEntryError("Entry: {0} is malformed - missing or malformed: ->".format(entry))
 
     return relationships
 
