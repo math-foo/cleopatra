@@ -108,14 +108,25 @@ class TestOrganismParsingBadEntry(unittest.TestCase):
 
 
 class TestOrganismParsingOddTree(unittest.TestCase):
+  def setUp(self):
+    test_input = ['A, B -> C\n',
+                  'C\n',
+                  'F\n',
+                  'D, E -> F\n',
+                  'G -> I\n',
+                  'H -> I\n']
+
+    self.organisms = OrganismParser(test_input).produce_organisms()
+
   def test_lone_entry_and_parents(self):
-    self.assertTrue(False)
+    self.assertIn('C', self.organisms)
+    self.assertEqual(['A', 'B'], self.organisms['C'])
+    self.assertIn('F', self.organisms)
+    self.assertEqual(['D', 'E'], self.organisms['F'])
 
   def test_two_single_parents(self):
-    self.assertTrue(False)
-
-  def test_parents_after_children(self):
-    self.assertTrue(False)
+    self.assertIn('I', self.organisms)
+    self.assertEqual(['G', 'H'], self.organisms['I'])
 
 
 class TestOrganismParsingBadTree(unittest.TestCase):
@@ -126,7 +137,11 @@ class TestOrganismParsingBadTree(unittest.TestCase):
     self.assertTrue(False)
 
   def test_more_than_two_parents(self):
-    self.assertTrue(False)
+    test_input = ['A, B ->  C\n',
+                  'D -> C\n']
+    organisms = OrganismParser(test_input)
+    with self.assertRaises(TooManyParentsError):
+      organisms.produce_organisms()
 
 
 class TestOrganismParsingComments(unittest.TestCase):

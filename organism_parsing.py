@@ -26,6 +26,10 @@ class MissingParentError(OrganismParseError):
   pass
 
 
+class TooManyParentsError(OrganismParseError):
+  pass
+
+
 class OrganismParser(object):
 
   def __init__(self, entries):
@@ -64,8 +68,19 @@ class OrganismParser(object):
                   parents = [parent_a, parent_b]
 
             if parents and child:
+              for parent in parents:
+                if parent not in relationships:
+                  relationships[parent] = []
+
               if child not in relationships:
                 relationships[child] = parents
+              else:
+                existing_parents = relationships[child]
+                if len(existing_parents) + len(parents) > 2:
+                  raise TooManyParentsError("Organism {0} has parent(s) {1} and {2}".format(child, existing_parents, parents))
+                else:
+                  existing_parents += parents
+                  relationships[child] = existing_parents
             elif not child:
               raise MissingChildError("Child missing from line: {0}".format(entry))
             elif not parents:
