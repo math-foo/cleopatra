@@ -131,9 +131,18 @@ class TestOrganismParsingOddTree(unittest.TestCase):
 
 class TestOrganismParsingBadTree(unittest.TestCase):
   def test_own_child(self):
-    self.assertTrue(False)
+    test_input = ['A ->  A\n']
+    organisms = OrganismParser(test_input)
+    with self.assertRaises(OwnChildError):
+      organisms.produce_organisms()
 
   def test_own_great_grand_child(self):
+    test_input = ['A, B ->  C\n',
+                  'C -> D\n',
+                  'D, E -> A\n']
+    organisms = OrganismParser(test_input)
+    with self.assertRaises(OwnChildError):
+      organisms.produce_organisms()
     self.assertTrue(False)
 
   def test_more_than_two_parents(self):

@@ -22,6 +22,10 @@ class MissingChildError(OrganismParseError):
   pass
 
 
+class OwnChildError(OrganismParseError):
+  pass
+
+
 class MissingParentError(OrganismParseError):
   pass
 
@@ -88,6 +92,15 @@ class OrganismParser(object):
 
           else:
             raise MalformedEntryError("Entry: {0} is malformed - missing or malformed: ->".format(entry))
+
+    for organism in relationships:
+      ancestors = relationships[organism][:]
+      while ancestors:
+        ancestor = ancestors.pop()
+        if ancestor == organism:
+          raise OwnChildError("{0} is its own child".format(organism))
+
+        ancestors += relationships[ancestor]
 
     return relationships
 
