@@ -143,7 +143,14 @@ class TestOrganismParsingBadTree(unittest.TestCase):
     organisms = OrganismParser(test_input)
     with self.assertRaises(OwnChildError):
       organisms.produce_organisms()
-    self.assertTrue(False)
+
+  def test_cycle_inParents(self):
+    test_input = ['A, B ->  C\n',
+                  'B -> D\n',
+                  'D, E -> B\n']
+    organisms = OrganismParser(test_input)
+    with self.assertRaises(OwnChildError):
+      organisms.produce_organisms()
 
   def test_more_than_two_parents(self):
     test_input = ['A, B ->  C\n',

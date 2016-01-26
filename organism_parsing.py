@@ -93,16 +93,37 @@ class OrganismParser(object):
           else:
             raise MalformedEntryError("Entry: {0} is malformed - missing or malformed: ->".format(entry))
 
+    verified_relationships = {}
+    root_organisms = []
+
     for organism in relationships:
-      ancestors = relationships[organism][:]
-      while ancestors:
-        ancestor = ancestors.pop()
-        if ancestor == organism:
-          raise OwnChildError("{0} is its own child".format(organism))
+      if not relationships[organism]:
+        verified_relationships[organism] = []
+        root_organisms.append(organism)
 
-        ancestors += relationships[ancestor]
+    for organism in root_organisms:
+      del relationships[organism]
 
-    return relationships
+    while relationships:
+      new_verified = []
+      for organism in relationships:
+        parents = relationships[organism]
+        verified = True
+        for parent in parents:
+          if parent not in verified_relationships:
+            verified = False
+
+        if verified:
+          new_verified.append(organism)
+
+      if len(new_verified) == 0:
+        raise OwnChildError("One of {0} is its own child".format(relationships.keys()))
+
+      for organism in new_verified:
+        verified_relationships[organism] = relationships[organism]
+        del relationships[organism]
+
+    return verified_relationships
 
 
 if __name__ == '__main__':
