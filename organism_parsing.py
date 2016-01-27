@@ -93,6 +93,10 @@ class OrganismParser(object):
           else:
             raise MalformedEntryError("Entry: {0} is malformed - missing or malformed: ->".format(entry))
 
+    self._check_for_own_child_error(relationships.copy())
+    return relationships
+
+  def _check_for_own_child_error(self, relationships):
     verified_relationships = {}
     root_organisms = []
 
@@ -123,7 +127,7 @@ class OrganismParser(object):
         verified_relationships[organism] = relationships[organism]
         del relationships[organism]
 
-    return verified_relationships
+    return True
 
 
 if __name__ == '__main__':
