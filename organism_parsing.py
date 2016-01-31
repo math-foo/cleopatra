@@ -10,11 +10,48 @@ def valid_organism_identifier(organism_name):
   else:
     return False
 
+
+def check_for_cycles(relationships):
+    verified_relationships = {}
+    root_organisms = []
+
+    for organism in relationships:
+      if not relationships[organism]:
+        verified_relationships[organism] = []
+        root_organisms.append(organism)
+
+    for organism in root_organisms:
+      del relationships[organism]
+
+    while relationships:
+      new_verified = []
+      for organism in relationships:
+        parents = relationships[organism]
+        verified = True
+        for parent in parents:
+          if parent not in verified_relationships:
+            verified = False
+
+        if verified:
+          new_verified.append(organism)
+
+      if len(new_verified) == 0:
+        raise OwnChildError("One of {0} is its own child".format(relationships.keys()))
+
+      for organism in new_verified:
+        verified_relationships[organism] = relationships[organism]
+        del relationships[organism]
+
+    return True
+
+
+# Root exception for parsing
 class OrganismParseError(Exception):
   pass
 
 
-class MalformedEntryError(Exception):
+# Parsing related exceptions
+class MalformedEntryError(OrganismParseError):
   pass
 
 
@@ -93,41 +130,8 @@ class OrganismParser(object):
           else:
             raise MalformedEntryError("Entry: {0} is malformed - missing or malformed: ->".format(entry))
 
-    self._check_for_own_child_error(relationships.copy())
+    check_for_cycles(relationships.copy())
     return relationships
-
-  def _check_for_own_child_error(self, relationships):
-    verified_relationships = {}
-    root_organisms = []
-
-    for organism in relationships:
-      if not relationships[organism]:
-        verified_relationships[organism] = []
-        root_organisms.append(organism)
-
-    for organism in root_organisms:
-      del relationships[organism]
-
-    while relationships:
-      new_verified = []
-      for organism in relationships:
-        parents = relationships[organism]
-        verified = True
-        for parent in parents:
-          if parent not in verified_relationships:
-            verified = False
-
-        if verified:
-          new_verified.append(organism)
-
-      if len(new_verified) == 0:
-        raise OwnChildError("One of {0} is its own child".format(relationships.keys()))
-
-      for organism in new_verified:
-        verified_relationships[organism] = relationships[organism]
-        del relationships[organism]
-
-    return True
 
 
 if __name__ == '__main__':
