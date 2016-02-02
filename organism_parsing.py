@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+from organism_generation import OrganismGenerator
+
 import re
 import sys
 
@@ -131,7 +133,8 @@ class OrganismParser(object):
             raise MalformedEntryError("Entry: {0} is malformed - missing or malformed: ->".format(entry))
 
     check_for_cycles(relationships.copy())
-    return relationships
+    generator = OrganismGenerator(relationships)
+    return generator.generate_organisms()
 
 
 if __name__ == '__main__':

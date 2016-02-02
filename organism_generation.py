@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from organism import Organism
+from organism_tree import OrganismTree
 
 class OrganismGenerator:
   def __init__(self, relationship_dict):
@@ -39,3 +40,6 @@ class OrganismGenerator:
 
       for entry in to_remove:
         del unprocessed_relationships[entry]
+
+      self.organism_tree = OrganismTree(self.relationships, self.organism_dict)
+      return self.organism_tree

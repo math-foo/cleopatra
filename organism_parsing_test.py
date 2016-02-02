@@ -4,7 +4,8 @@ import unittest
 from organism_parsing import *
 
 class TestOrganismSimpleParsing(unittest.TestCase):
-  def setUp(self):
+  @classmethod
+  def setUpClass(self):
     test_input = ['A, B -> C\n', # Two Parent organism
                   'D\n', # Lone organism
                   'E -> F\n', # Single Parent organisms
@@ -15,7 +16,7 @@ class TestOrganismSimpleParsing(unittest.TestCase):
                   'P -> Q\n', # Single Parent, multiple children
                   'P -> R\n']
     organism_parser = OrganismParser(test_input)
-    self.organisms = organism_parser.produce_organisms()
+    self.organisms = organism_parser.produce_organisms().relationships
 
   def test_lone_organism(self):
     self.assertIn('D', self.organisms)
@@ -49,12 +50,13 @@ class TestOrganismSimpleParsing(unittest.TestCase):
 
 
 class TestOrganismParsingOddSpacing(unittest.TestCase):
-  def setUp(self):
+  @classmethod
+  def setUpClass(self):
     test_input = ['A,B->C\n', # Bunched
                   'D, E -> F\n', # Normal
                   '      G     ,     H      ->      I        \n'] # Spaced out
     organism_parser = OrganismParser(test_input)
-    self.organisms = organism_parser.produce_organisms()
+    self.organisms = organism_parser.produce_organisms().relationships
 
   def test_bunched_organisms(self):
     self.assertIn('C', self.organisms)
@@ -116,7 +118,7 @@ class TestOrganismParsingOddTree(unittest.TestCase):
                   'G -> I\n',
                   'H -> I\n']
 
-    self.organisms = OrganismParser(test_input).produce_organisms()
+    self.organisms = OrganismParser(test_input).produce_organisms().relationships
 
   def test_lone_entry_and_parents(self):
     self.assertIn('C', self.organisms)
@@ -167,7 +169,7 @@ class TestOrganismParsingComments(unittest.TestCase):
     self.organisms = organism_parser.produce_organisms()
 
   def test_no_organisms(self):
-    self.assertEqual(0, len(self.organisms))
+    self.assertIsNone(self.organisms)
 
 
 class TestOddNames(unittest.TestCase):
