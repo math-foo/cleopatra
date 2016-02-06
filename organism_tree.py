@@ -6,3 +6,6 @@ class OrganismTree:
   def __init__(self, relationships, organisms):
     self.relationships = relationships
     self.organisms = organisms
+
+  def generate_visualization(self):
+    print 'Not yet implemented'
