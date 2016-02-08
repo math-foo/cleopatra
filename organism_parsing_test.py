@@ -30,11 +30,15 @@ class TestOrganismSimpleParsing(unittest.TestCase):
     self.assertIn('C', self.organisms)
     self.assertEqual(['A', 'B'], self.organisms['C'])
 
-  def test_parents_added_as_organisms(self):
+  def test_two_parents_added_as_organisms(self):
     self.assertIn('A', self.organisms)
     self.assertEqual([], self.organisms['A'])
     self.assertIn('B', self.organisms)
     self.assertEqual([], self.organisms['B'])
+
+  def test_single_parent_added_as_organism(self):
+    self.assertIn('P', self.organisms)
+    self.assertEqual([], self.organisms['P'])
 
   def test_different_parenting_pairs_organism(self):
     self.assertIn('I', self.organisms)
