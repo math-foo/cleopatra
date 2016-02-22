@@ -11,7 +11,7 @@ class TestSimpleOrganismTree(unittest.TestCase):
                   'E -> F\n'] # Single Parent organisms
     organism_parser = OrganismParser(test_input)
     self.organism_tree = organism_parser.produce_organisms()
-    self.organism_tree.generate_visualization()
+    self.organism_tree.generate_summary()
 
   def test_ghost_organisms_generated(self):
     self.assertTrue(False)
