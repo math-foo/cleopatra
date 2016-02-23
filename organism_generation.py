@@ -41,5 +41,5 @@ class OrganismGenerator:
       for entry in to_remove:
         del unprocessed_relationships[entry]
 
-      self.organism_tree = OrganismTree(self.relationships, self.organism_dict)
+      self.organism_tree = OrganismTree(self.relationships)
       return self.organism_tree

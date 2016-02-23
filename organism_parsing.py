@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from organism_generation import OrganismGenerator
+from organism_tree import OrganismTree
 
 import re
 import sys
@@ -133,12 +133,11 @@ class OrganismParser(object):
             raise MalformedEntryError("Entry: {0} is malformed - missing or malformed: ->".format(entry))
 
     check_for_cycles(relationships.copy())
-    generator = OrganismGenerator(relationships)
-    return generator.generate_organisms()
+    return OrganismTree(relationships)
 
 
 if __name__ == '__main__':
     input_file_contents = open(sys.argv[1], 'r').readlines()
     new_parser = OrganismParser(input_file_contents)
     organism_tree = new_parser.produce_organisms()
-    organism_tree.generate_visualization()
+    organism_tree.generate_summary()

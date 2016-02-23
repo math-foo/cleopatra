@@ -176,10 +176,10 @@ class TestOrganismParsingComments(unittest.TestCase):
   def setUp(self):
     test_input = ['# A, B -> C\n', '# This is also a comment\n', '\n', '     \n']
     organism_parser = OrganismParser(test_input)
-    self.organisms = organism_parser.produce_organisms()
+    self.tree = organism_parser.produce_organisms()
 
   def test_no_organisms(self):
-    self.assertIsNone(self.organisms)
+    self.assertDictEqual({}, self.tree.organisms)
 
 
 class TestOddNames(unittest.TestCase):
