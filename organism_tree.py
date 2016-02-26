@@ -42,8 +42,9 @@ class OrganismTree:
           if ready_to_process:
             if len(parents) == 1:
               ghost_name = entry
+
               while ghost_name in self.relationships:
-                ghost_name = "{0}Ghost".format(ghost_name)
+                ghost_name = "{0}#Ghost".format(ghost_name)
 
               temp_organism = Organism("unknown")
               self.ghosts[ghost_name] = {'child': entry, 'organism': temp_organism}
