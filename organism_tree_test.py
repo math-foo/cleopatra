@@ -86,6 +86,13 @@ class TestOrganismTreeSummary(unittest.TestCase):
     index = self.summary.find(desc)
     self.assertGreater(index, -1)
 
+  def test_parent_before_child(self):
+    C_desc = "C is a child of A and B"
+    C_index = self.summary.find(C_desc)
+    A_desc = "A has no parents"
+    A_index = self.summary.find(A_desc)
+    self.assertGreater(C_index, A_index)
+
 
 if __name__ == '__main__':
     unittest.main()

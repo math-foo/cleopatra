@@ -25,6 +25,23 @@ class OrganismTree:
         summary_string += "{0} has no parents\n".format(organism_name)
         processed_organisms.append(organism_name)
 
+    while len(processed_organisms) < len(self.relationships):
+      for organism_name in self.relationships:
+        if organism_name in processed_organisms:
+          continue
+        parents_found = True
+        parents = self.relationships[organism_name]
+        for parent in parents:
+          parents_found &= (parent in processed_organisms)
+
+        if parents_found:
+          processed_organisms.append(organism_name)
+          parents.sort()
+          if len(parents) == 1:
+            summary_string += "{0} is a child of {1}\n".format(organism_name, parents[0])
+          else:
+            summary_string += "{0} is a child of {1} and {2}\n".format(organism_name, parents[0], parents[1])
+
     return summary_string
 
   def __generate_tree(self):
