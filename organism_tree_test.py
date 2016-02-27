@@ -59,5 +59,33 @@ class TestSimpleOrganismTree(unittest.TestCase):
     self.assertEqual([], filtered_genes)
 
 
+class TestOrganismTreeSummary(unittest.TestCase):
+  @classmethod
+  def setUpClass(self):
+    test_input = ['A, B -> C\n', # Two Parent organism
+                  'D\n', # Lone organism
+                  'E -> F\n'] # Single Parent organisms
+    organism_parser = OrganismParser(test_input)
+    self.organism_tree = organism_parser.produce_organisms()
+    self.summary = self.organism_tree.generate_summary()
+
+  def test_no_parent_organisms_described(self):
+    no_parents = ['A','B', 'D', 'E']
+    for name in no_parents:
+      desc = "{0} has no parents".format(name)
+      index = self.summary.find(desc)
+      self.assertGreater(index, -1)
+
+  def test_one_parent_organisms_described(self):
+    desc = "F is a child of E"
+    index = self.summary.find(desc)
+    self.assertGreater(index, -1)
+
+  def test_two_parent_organisms_described(self):
+    desc = "C is a child of A and B"
+    index = self.summary.find(desc)
+    self.assertGreater(index, -1)
+
+
 if __name__ == '__main__':
     unittest.main()

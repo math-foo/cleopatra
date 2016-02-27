@@ -17,10 +17,15 @@ class OrganismTree:
     if not self.__generated:
       self.__generate_tree()
 
-    print 'Not yet implemented'
-    print self.relationships
-    print self.organisms
-    print self.ghosts
+    summary_string = ""
+    processed_organisms = []
+
+    for organism_name in self.relationships:
+      if len(self.relationships[organism_name]) == 0:
+        summary_string += "{0} has no parents\n".format(organism_name)
+        processed_organisms.append(organism_name)
+
+    return summary_string
 
   def __generate_tree(self):
     unprocessed_relationships = self.relationships.copy()
