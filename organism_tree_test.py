@@ -62,36 +62,44 @@ class TestSimpleOrganismTree(unittest.TestCase):
 class TestOrganismTreeSummary(unittest.TestCase):
   @classmethod
   def setUpClass(self):
-    test_input = ['A, B -> C\n', # Two Parent organism
-                  'D\n', # Lone organism
-                  'E -> F\n'] # Single Parent organisms
+    test_input = ['Anna, Bert -> Claude\n', # Two Parent organism
+                  'Denise\n', # Lone organism
+                  'Elaine -> Frank\n', # Single Parent organisms
+                  'Denise, Claude -> George\n',
+                  'Denise, Frank -> Hilary\n',
+                  'George, Hilary -> Ivan\n']
     organism_parser = OrganismParser(test_input)
     self.organism_tree = organism_parser.produce_organisms()
     self.summary = self.organism_tree.generate_summary()
 
   def test_no_parent_organisms_described(self):
-    no_parents = ['A','B', 'D', 'E']
+    no_parents = ['Anna', 'Bert', 'Denise', 'Elaine']
     for name in no_parents:
       desc = "{0} has no parents".format(name)
       index = self.summary.find(desc)
       self.assertGreater(index, -1)
 
   def test_one_parent_organisms_described(self):
-    desc = "F is a child of E"
+    desc = "Frank is a child of Elaine"
     index = self.summary.find(desc)
     self.assertGreater(index, -1)
 
   def test_two_parent_organisms_described(self):
-    desc = "C is a child of A and B"
+    desc = "Claude is a child of Anna and Bert"
     index = self.summary.find(desc)
     self.assertGreater(index, -1)
 
   def test_parent_before_child(self):
-    C_desc = "C is a child of A and B"
+    C_desc = "Claude is a child of Anna and Bert"
     C_index = self.summary.find(C_desc)
-    A_desc = "A has no parents"
+    A_desc = "Anna has no parents"
     A_index = self.summary.find(A_desc)
     self.assertGreater(C_index, A_index)
+
+  def test_identify_genetic_parentage_simple(self):
+    desc = "Genetically, Claude is:\n50.0% Bert\n50.0% Anna"
+    desc_index = self.summary.find(desc)
+    self.assertGreater(desc_index, -1)
 
 
 if __name__ == '__main__':

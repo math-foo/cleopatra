@@ -2,7 +2,22 @@
 
 from organism import Organism
 
+def count_genes(gene_list):
+  gene_count = {}
+
+  for gene in gene_list:
+    for g in gene:
+      x = g.upper()
+      if x not in gene_count:
+        gene_count[x] = 1
+      else:
+        gene_count[x] += 1
+
+  return gene_count
+
 class OrganismTree:
+  GENE_TOTAL = 20000.0
+
   def __init__(self, relationships):
     self.relationships = relationships
 
@@ -19,10 +34,13 @@ class OrganismTree:
 
     summary_string = ""
     processed_organisms = []
+    genetic_dict = {}
 
     for organism_name in self.relationships:
       if len(self.relationships[organism_name]) == 0:
-        summary_string += "{0} has no parents\n".format(organism_name)
+        gene = self.organisms[organism_name].genes[0].gene[0].upper()
+        genetic_dict[gene] = organism_name
+        summary_string += "{0} has no parents\n\n".format(organism_name)
         processed_organisms.append(organism_name)
 
     while len(processed_organisms) < len(self.relationships):
@@ -38,9 +56,22 @@ class OrganismTree:
           processed_organisms.append(organism_name)
           parents.sort()
           if len(parents) == 1:
+            ghost_name = "{0}#Ghost".format(organism_name)
+            ghost_gene = self.ghosts[ghost_name]['organism'].genes[0].gene[0].upper()
+            genetic_dict[ghost_gene] = "unknown parent of {0}".format(organism_name)
             summary_string += "{0} is a child of {1}\n".format(organism_name, parents[0])
           else:
             summary_string += "{0} is a child of {1} and {2}\n".format(organism_name, parents[0], parents[1])
+
+          organism = self.organisms[organism_name]
+          genes = [x.gene for x in organism.genes]
+          gene_frequency = count_genes(genes)
+          summary_string += "Genetically, {0} is:\n".format(organism_name)
+          for gene in gene_frequency:
+            name = genetic_dict[gene]
+            percent = (gene_frequency[gene]/self.GENE_TOTAL) * 100
+            summary_string += "{0}% {1}\n".format(percent, name)
+          summary_string += "\n"
 
     return summary_string
 
