@@ -101,6 +101,11 @@ class TestOrganismTreeSummary(unittest.TestCase):
     desc_index = self.summary.find(desc)
     self.assertGreater(desc_index, -1)
 
+  def test_inbredness_identified(self):
+    ivan_regex = r'Genetically, Ivan is:\n(.*)% Bert\n(.*)% Elaine\n(.*)% Denise\n(.*)% unknown parent of Frank\n(.*)% Anna\nAnd (.*)% inbred'
+    ivan_result = re.search(ivan_regex, self.summary)
+    self.assertTrue(ivan_result)
+
 
 if __name__ == '__main__':
     unittest.main()

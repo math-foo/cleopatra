@@ -15,6 +15,15 @@ def count_genes(gene_list):
 
   return gene_count
 
+def detect_inbred(gene_list):
+  inbred_count = 0
+
+  for gene in gene_list:
+    if gene[0] == gene[1]:
+      inbred_count += 1
+
+  return inbred_count
+
 class OrganismTree:
   GENE_TOTAL = 20000.0
 
@@ -65,12 +74,16 @@ class OrganismTree:
 
           organism = self.organisms[organism_name]
           genes = [x.gene for x in organism.genes]
-          gene_frequency = count_genes(genes)
           summary_string += "Genetically, {0} is:\n".format(organism_name)
+          gene_frequency = count_genes(genes)
           for gene in gene_frequency:
             name = genetic_dict[gene]
             percent = (gene_frequency[gene]/self.GENE_TOTAL) * 100
             summary_string += "{0}% {1}\n".format(percent, name)
+          inbred_count = detect_inbred(genes)
+          if inbred_count > 0:
+            percent = ((inbred_count * 2)/self.GENE_TOTAL) * 100
+            summary_string += "And {0}% inbred".format(percent)
           summary_string += "\n"
 
     return summary_string

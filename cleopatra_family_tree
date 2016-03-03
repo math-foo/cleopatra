@@ -1,0 +1,19 @@
+PtolemyV, CleopatraI -> PtolemyVIII
+PtolemyV, CleopatraI -> PtolemyVI
+PtolemyV, CleopatraI -> CleopatraII
+
+PtolemyVI, CleopatraII -> CleopatraIII
+
+PtolemyVIII, CleopatraIII -> PtolemyXAlexanderI
+PtolemyVIII, CleopatraIII -> CleopatraSeleneI
+PtolemyVIII, CleopatraIII -> PtolemyIXLathyros
+PtolemyVIII, CleopatraIII -> CleopatraIV
+
+PtolmeyIXLathyros, CleopatraSeleneI -> BerinceIII
+
+PtolmeyIXLathyros, CleopatraIV -> PtolmeyXIIAuletes
+
+PtolmeyXAlexanderI, BerniceIII -> CleopatraV
+
+PtolmeyXIIAuletes, CleopatraV -> CleopatraVII
+
