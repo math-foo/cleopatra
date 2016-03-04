@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
 import unittest
+import os.path, sys
+sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
 from organism_parsing import *
 
 # given A, b -> [AB, Ab, aB, ab]
