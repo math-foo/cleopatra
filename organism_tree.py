@@ -83,7 +83,7 @@ class OrganismTree:
           inbred_count = detect_inbred(genes)
           if inbred_count > 0:
             percent = ((inbred_count * 2)/self.GENE_TOTAL) * 100
-            summary_string += "And {0}% inbred".format(percent)
+            summary_string += "And {0}% inbred\n".format(percent)
           summary_string += "\n"
 
     return summary_string
